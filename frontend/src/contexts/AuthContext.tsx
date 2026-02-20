@@ -24,7 +24,7 @@ interface AuthContextProvider {
 
 const AuthContext = createContext<AuthContextProvider | undefined>(undefined);
 
-export const useAuth = () => {
+export function useAuth() {
   const context = useContext(AuthContext);
 
   if (!context) {
@@ -32,7 +32,7 @@ export const useAuth = () => {
   }
 
   return context;
-};
+}
 
 export const AuthProvider = ({ children }: AuthProviderProp) => {
   const [auth, setAuth] = useState<AuthUser | null>(null);
@@ -73,7 +73,7 @@ export const AuthProvider = ({ children }: AuthProviderProp) => {
   const signup = async (name: string, email: string, password: string) => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post("/auth/login", { name, email, password });
+      const response = await axiosInstance.post("/auth/signup", { name, email, password });
       const data = response.data;
       setAuth(data.data);
     } catch (error) {

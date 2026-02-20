@@ -3,6 +3,7 @@ import Dashboard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
 import { useAuth } from "./contexts/AuthContext";
 import { Spinner } from "./components/ui/spinner";
+import SignupPage from "./pages/SignupPage";
 
 function App() {
   const { authUser, isLoading } = useAuth();
@@ -18,6 +19,8 @@ function App() {
     <div className="min-h-screen bg-background text-foreground">
       <Routes>
         <Route path="/" element={authUser ? <Dashboard /> : <LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Routes>
     </div>
   );

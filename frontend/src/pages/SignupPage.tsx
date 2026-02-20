@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
-import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
 import { useAuth } from "@/contexts/AuthContext";
 
-export default function LoginPage() {
+export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { googleLogin } = useAuth();
@@ -52,13 +53,34 @@ export default function LoginPage() {
               BULL HOUSE <span className="text-yellow-400">APEX</span>
             </span>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-slate-400">Sign in to access your trading dashboard</p>
+          <h1 className="text-3xl font-bold mb-2">Create Account</h1>
+          <p className="text-slate-400">Get Started with your Trading Journey</p>
         </div>
 
         {/* Login Form */}
         <div className="bg-linear-to-br from-slate-900/50 to-slate-800/30 border border-slate-800/50 rounded-2xl p-8">
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Username Field */}
+            <div>
+              <label htmlFor="username" className="block text-sm font-semibold mb-2 text-slate-300">
+                Username
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
+                  <User size={20} />
+                </div>
+                <input
+                  id="username"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="Trader Username"
+                  className="w-full pl-12 pr-4 py-3.5 bg-slate-900 border border-slate-700 rounded-lg text-white placeholder-slate-500 focus:outline-none focus:border-yellow-400 transition-colors"
+                  required
+                />
+              </div>
+            </div>
+
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-semibold mb-2 text-slate-300">
@@ -149,9 +171,9 @@ export default function LoginPage() {
         {/* Sign Up Link */}
         <div className="text-center mt-6">
           <p className="text-slate-400">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors">
-              Create Account
+            Already have an account?{" "}
+            <Link to="/login" className="text-yellow-400 hover:text-yellow-300 font-semibold transition-colors">
+              Sign In
             </Link>
           </p>
         </div>
