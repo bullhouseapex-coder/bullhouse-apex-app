@@ -7,6 +7,8 @@ import logo from "../assets/BH-logo.png";
 const Navbar = () => {
   const { authUser, logout } = useAuth();
 
+  console.log(authUser);
+
   return (
     <header className="fixed bg-slate-900 top-0 w-full flex justify-center backdrop-blur shadow-sm">
       <div className="container">
@@ -30,7 +32,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="ml-auto flex items-center gap-3">
-            <h3 className="font-medium text-white">{authUser?.name || "Username"}</h3>
+            <h3 className="font-medium text-white">{authUser?.username || "Username"}</h3>
             <Avatar>
               <AvatarImage src={authUser?.picture} />
               <AvatarFallback>UN</AvatarFallback>

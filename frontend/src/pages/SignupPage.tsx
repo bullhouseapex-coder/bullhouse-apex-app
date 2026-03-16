@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User } from "lucide-react";
 import { GoogleLogin, type CredentialResponse } from "@react-oauth/google";
@@ -9,12 +9,12 @@ export default function SignupPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { googleLogin } = useAuth();
+  const { googleLogin, signup } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: React.SubmitEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login attempt:", { email, password });
+
+    signup(username, email, password);
   };
 
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {

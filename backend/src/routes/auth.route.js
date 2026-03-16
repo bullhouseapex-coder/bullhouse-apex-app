@@ -1,32 +1,17 @@
 import { Router } from "express";
-import { googleLogin } from "../controllers/auth.controller.js";
-import { generateToken } from "../lib/utils.js";
+import { checkAuth, googleLogin, login, logout, signup } from "../controllers/auth.controller.js";
 import { protectedRoute } from "../middleware/auth.middleware.js";
 
 const router = Router();
 
-router.post("/login", (req, res) => {
-  console.log("Login Route");
+router.post("/login", login);
 
-  generateToken({ userId: 123 }, res);
-
-  return res.status(200).json({ message: "Login Route" });
-});
-
-router.get("/check", protectedRoute, (req, res) => {
-  try {
-    res.status(200).json(req.authUser);
-  } catch (error) {
-    console.error("Error in Auth Route: check:", error.message);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-});
+router.get("/check", protectedRoute, checkAuth);
 
 router.post("/google-login", googleLogin);
 
-router.post("/logout", (req, res) => {
-  res.cookie("jwt", "", { maxAge: 0 });
-  res.status(200).json({ message: "Logout" });
-});
+router.post("/logout", logout);
+
+router.post("/signup", signup);
 
 export default router;

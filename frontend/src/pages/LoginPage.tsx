@@ -8,12 +8,12 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { googleLogin } = useAuth();
+  const { googleLogin, login } = useAuth();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log("Login attempt:", { email, password });
+
+    login(email, password);
   };
 
   const handleLoginSuccess = async (credentialResponse: CredentialResponse) => {

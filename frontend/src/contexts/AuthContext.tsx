@@ -1,12 +1,14 @@
 import { axiosInstance } from "@/lib/axiosInstance";
+import axios from "axios";
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import toast from "react-hot-toast";
 
 type AuthProviderProp = {
   children: ReactNode;
 };
 
 interface AuthUser {
-  name: string;
+  username: string;
   email: string;
   picture: string;
   userId: string;
@@ -47,9 +49,10 @@ export const AuthProvider = ({ children }: AuthProviderProp) => {
       setIsLoading(true);
       const response = await axiosInstance.get("/auth/check");
       const data = response.data;
+
       setAuth(data);
     } catch (error) {
-      console.error("Auth Check Failed:", error);
+      if (axios.isAxiosError(error)) toast.error(error.response?.data?.message);
       setAuth(null);
     } finally {
       setIsLoading(false);
@@ -61,23 +64,27 @@ export const AuthProvider = ({ children }: AuthProviderProp) => {
       setIsLoading(true);
       const response = await axiosInstance.post("/auth/login", { email, password });
       const data = response.data;
+
       setAuth(data.data);
+      toast.success("Login Successful");
     } catch (error) {
-      console.error("Login Failed:", error);
+      if (axios.isAxiosError(error)) toast.error(error.response?.data?.message);
       setAuth(null);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const signup = async (name: string, email: string, password: string) => {
+  const signup = async (username: string, email: string, password: string) => {
     try {
       setIsLoading(true);
-      const response = await axiosInstance.post("/auth/signup", { name, email, password });
+      const response = await axiosInstance.post("/auth/signup", { username, email, password });
       const data = response.data;
+
       setAuth(data.data);
+      toast.success("Account Created Successfully");
     } catch (error) {
-      console.error("Login Failed:", error);
+      if (axios.isAxiosError(error)) toast.error(error.response?.data?.message);
       setAuth(null);
     } finally {
       setIsLoading(false);
@@ -89,9 +96,11 @@ export const AuthProvider = ({ children }: AuthProviderProp) => {
       setIsLoading(true);
       const response = await axiosInstance.post("/auth/google-login", { token });
       const data = response.data;
+
       setAuth(data.data);
+      toast.success("Login Successful");
     } catch (error) {
-      console.error("Login Failed:", error);
+      if (axios.isAxiosError(error)) toast.error(error.response?.data?.message);
       setAuth(null);
     } finally {
       setIsLoading(false);
@@ -102,9 +111,12 @@ export const AuthProvider = ({ children }: AuthProviderProp) => {
     try {
       setIsLoading(true);
       await axiosInstance.post("/auth/logout");
+
       setAuth(null);
+      toast.success("Logout Successful");
     } catch (error) {
-      console.error("Login Failed:", error);
+      if (axios.isAxiosError(error)) toast.error(error.response?.data?.message);
+
       setAuth(null);
     } finally {
       setIsLoading(false);
